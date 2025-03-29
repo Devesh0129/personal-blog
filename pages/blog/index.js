@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { db } from "./firebaseConfig";
+import { db } from "../firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 import { Card, CardContent, Typography, CircularProgress } from "@mui/material";
 import Link from "next/link";
@@ -34,7 +34,7 @@ const Blog = () => {
           <Card key={post.id} style={{ marginBottom: "20px" }}>
             <CardContent>
               {/* 🔗 Clickable Title to Navigate to post/[id].js */}
-              <Link href={`/post/${post.id}`} passHref>
+              <Link href={`/blog/${post.id}`} passHref>
                 <Typography variant="h5" style={{ cursor: "pointer", color: "blue" }}>
                   {post.title}
                 </Typography>
