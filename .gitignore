@@ -39,3 +39,23 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+
+# Firebase credentials and environment variables
+.env.local
+.env.production
+.env.development
+
+# Logs
+logs/
+*.log
+
+# OS-specific files
+.DS_Store
+
+# IDE settings
+.vscode/
+.idea/
+
+# npm package lock (optional)
+package-lock.json
