@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { db } from "../firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
-import { Typography, Card, CardContent, CircularProgress, Button } from "@mui/material";
+import { Typography, Card, CardContent, CardMedia, CircularProgress, Button } from "@mui/material";
 import Link from "next/link";
 
 const PostDetail = () => {
@@ -40,6 +40,13 @@ const PostDetail = () => {
   return (
     <div style={{ maxWidth: "800px", margin: "auto", padding: "20px" }}>
       <Card>
+        {/* Display Image */}
+        <CardMedia
+          component="img"
+          height="400"
+          image={post.image || "/images/blog-1.jpeg"} // Default image if no image in post
+          alt={post.title}
+        />
         <CardContent>
           <Typography variant="h4" gutterBottom>
             {post.title}

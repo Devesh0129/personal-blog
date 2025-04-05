@@ -10,7 +10,7 @@ const ProtectedRoute = ({ children }) => {
   useEffect(() => {
     // Redirect to login only if the user is not logged in
     if (!user) {
-      router.push("/login");
+      router.push("/auth/login");
     } else {
       setLoading(false);
     }
