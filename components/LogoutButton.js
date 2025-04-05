@@ -13,7 +13,7 @@ const LogoutButton = () => {
       await signOut(auth);
       setSnackbarOpen(true);
       setTimeout(() => {
-        router.push("/login"); // Redirect to login after logout
+        router.push("/auth/login"); // Redirect to login after logout
       }, 2000);
     } catch (error) {
       console.error("Logout Error:", error);

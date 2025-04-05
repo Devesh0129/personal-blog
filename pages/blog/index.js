@@ -1,58 +1,81 @@
-import React, { useEffect, useState } from "react";
-import { db } from "../firebaseConfig";
-import { collection, getDocs } from "firebase/firestore";
-import { Card, CardContent, Typography, CircularProgress } from "@mui/material";
+import { useEffect, useState } from "react";
+import { db } from "../firebaseConfig"; // Firebase config
+import { collection, getDocs } from "firebase/firestore"; // Firestore methods
+import {
+  Container,
+  Grid,
+  Typography,
+  Card,
+  CardContent,
+  CardMedia,
+  Button,
+} from "@mui/material";
 import Link from "next/link";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
 
-const Blog = () => {
+const BlogPage = () => {
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPosts = async () => {
       const querySnapshot = await getDocs(collection(db, "posts"));
-      const postsArray = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const postsArray = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
       setPosts(postsArray);
-      setLoading(false);
     };
 
     fetchPosts();
   }, []);
 
-  if (loading) {
-    return <CircularProgress />;
-  }
-
   return (
-    <div style={{ maxWidth: "800px", margin: "auto", padding: "20px" }}>
-      <Typography variant="h3" gutterBottom>📚 Blog Posts</Typography>
-
-      {posts.length === 0 ? (
-        <Typography variant="h6">No blog posts available.</Typography>
-      ) : (
-        posts.map(post => (
-          <Card key={post.id} style={{ marginBottom: "20px" }}>
-            <CardContent>
-              {/* 🔗 Clickable Title to Navigate to post/[id].js */}
-              <Link href={`/blog/${post.id}`} passHref>
-                <Typography variant="h5" style={{ cursor: "pointer", color: "blue" }}>
-                  {post.title}
-                </Typography>
-              </Link>
-
-              <Typography variant="body2" color="textSecondary">
-                By {post.author} | {new Date(post.createdAt.seconds * 1000).toLocaleString()}
-              </Typography>
-
-              <Typography variant="body1" style={{ marginTop: "10px" }}>
-                {post.content.slice(0, 100)}... {/* Show preview, not full content */}
-              </Typography>
-            </CardContent>
-          </Card>
-        ))
-      )}
-    </div>
+    <>
+      <Header />
+      <Container maxWidth="lg">
+        <Typography variant="h4" gutterBottom align="center" sx={{ mt: 4 }}>
+          Blog Posts
+        </Typography>
+        <Grid container spacing={3}>
+          {posts.map((post) => (
+            <Grid item xs={12} sm={6} md={4} key={post.id}>
+              <Card sx={{ maxWidth: 345, display: "flex", flexDirection: "column", height: "100%" }}>
+                {/* Card Media: Image */}
+                <CardMedia
+                  component="img"
+                  height="200" // Set a fixed height for images
+                  image={post.image || "/images/blog-1.jpeg"} // Default image
+                  alt={post.title}
+                  sx={{
+                    objectFit: "cover", // Prevent distortion and ensure proper fit
+                  }}
+                />
+                <CardContent sx={{ flexGrow: 1 }}>
+                  <Typography variant="h6" component="div" gutterBottom>
+                    {post.title}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" noWrap>
+                    {post.content.length > 100 ? `${post.content.substring(0, 100)}...` : post.content}
+                  </Typography>
+                </CardContent>
+                <Button
+                  size="small"
+                  color="primary"
+                  component={Link}
+                  href={`/blog/${post.id}`} // Link to individual blog post
+                  sx={{ margin: 2 }}
+                >
+                  Read More
+                </Button>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+      <Footer />
+    </>
   );
 };
 
-export default Blog;
+export default BlogPage;

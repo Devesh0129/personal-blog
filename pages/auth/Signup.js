@@ -106,7 +106,7 @@ const SignUp = () => {
         {/* Login Button */}
         <Typography variant="body2" sx={{ mt: 2 }}>
           Already have an account?{" "}
-          <Button color="secondary" onClick={() => router.push("/login")}>
+          <Button color="secondary" onClick={() => router.push("/auth/login")}>
             Login
           </Button>
         </Typography>
